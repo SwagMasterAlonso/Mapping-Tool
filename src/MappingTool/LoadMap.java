@@ -114,6 +114,11 @@ public class LoadMap extends JLabel{
 					nodeNumber++;
 					shouldRedraw = true;
 					//System.out.println(mapNodes.get(i).xPos);
+					System.out.println("***");
+
+					System.out.println(imageWidth);
+					System.out.println(imageHeight);
+					System.out.println("***");
 
 					repaint();
 				}
@@ -342,37 +347,12 @@ public class LoadMap extends JLabel{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				n1.neighbors = new Edge[] { new Edge(n2, Edge.getDistance(n1, n3)), };
-				n2.neighbors = new Edge[] { new Edge(n3, Edge.getDistance(n2, n3)) };
-				n3.neighbors = new Edge[] { new Edge(n2, Edge.getDistance(n2, n3))};
+			
 
 
 
 				JButton addEdge = new JButton("Add Edge");
-				addEdge.addActionListener(new ActionListener(){
-
-					public void actionPerformed(ActionEvent arg0) {
-
-						addingEdge = true;
-						addingNode= false;
-						numberClicks = 0;
-
-
-					}          
-				});
-
-				JButton add = new JButton("Add Nodes");
-				add.addActionListener(new ActionListener(){
-
-					public void actionPerformed(ActionEvent arg0) {
-
-						addingEdge = false;
-						addingNode= true;
-
-
-
-					}          
-				});
+				
 
 
 				JButton save = new JButton("Save");
