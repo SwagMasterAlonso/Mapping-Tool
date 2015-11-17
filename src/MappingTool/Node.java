@@ -4,6 +4,8 @@ Alonso Martinez
 
 package MappingTool;
 
+import java.util.ArrayList;
+import java.util.List;
 
 //class for node. A node is a point on the grid that contains an x and y position
 public class Node{
@@ -17,6 +19,7 @@ public class Node{
     public int yPos; // y position of node
     public Boolean isObstacle; //variable to see if the node is an obstacle
     public String description;
+	public List<Node> connectioNodes = new ArrayList<Node>();
 
     
     //constructor for node

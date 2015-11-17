@@ -27,4 +27,9 @@ public class Edge{
 
 		return distance;
 	}
+	
+	
+	public Node returnConnection(){
+		return connection;
+	}
 }

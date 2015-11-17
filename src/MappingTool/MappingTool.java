@@ -43,68 +43,86 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 /**
 Alonso
  */
 public class MappingTool extends JLabel {
-	static BufferedImage img;
-	static JFrame frame = new JFrame();
 
-	static private JPanel contentPane;
-	static boolean imageLoaded = false;
-	private final static  JButton btnAddNode = new JButton("Add Node");
-	private final  static JButton btnAddEdge = new JButton("Add Edge");
-	private final static JButton btnSave = new JButton("Save");
-	private final static JButton btnDeleteNode = new JButton("Delete Node");
-	private final  static JButton btnDeleteEdge = new JButton("Delete Edge");
-	private final static JButton btnRunButton = new JButton("Run A*");
-	private final  static JButton btnShowGrid = new JButton("Show Grid");
-	static JButton btnLoadMap = new JButton("Load Map");
-	static int offset = 50;
-	private static final long serialVersionUID = 1L;
-	private static final int CELLSX = 60;
-	private static final int CELLSY = 40;
-	boolean shouldRedraw = false;
-	int mouseX;
-	int mouseY;
-	int adjustedMouseX;
-	int adjustedMouseY;
-	int nodeWidth;
-	int nodeHeight;
-	int imageWidth;
-	int imageHeight;
-	boolean doOnce= true;
-	static int numberClicks;
-	int[][] grid2;
-	static boolean addingEdge = false;
-	static boolean addingNode = false;
+
+
+
+
+
+	//list of nodes
 	static List<Node> mapNodes = new ArrayList<Node>();
-	List<Node> tempNodes = new ArrayList<Node>();
+	static List<Node> tempNodes = new ArrayList<Node>();
 	static List<Node> bestPath = new ArrayList<Node>();
-	static List<Node> testPath = new ArrayList<Node>();
 	static List<Node> finalNodes = new ArrayList<Node>();
 	static List<Node> edgeNodes = new ArrayList<Node>();
-	List<Node> map = new ArrayList<Node>();
-	String path;
-	static boolean drawPath = false;
-	static boolean calcPath = false;
-	int firstNodeLoc = 0;
-	int secondNodeLoc = 0;
-	int scaleX;
-	int scaleY;
-	int nodeNumber;
-	int cellHeight;
-	int cellWidth;
-	boolean shouldShowGrid;
-	JLabel lblMap = new JLabel();
 
+
+
+
+
+
+	//ints
+	int mouseX = 0;
+	int mouseY = 0;
 	int mouseX1 = 0;
 	int mouseY1 = 0;
 	int mouseX2 = 0;
 	int mouseY2 = 0;
+	int firstNodeLoc = 0;
+	int secondNodeLoc = 0;
+	static int scaleX;
+	static int scaleY;
+	int nodeNumber;
+	int cellHeight;
+	int cellWidth;
+	int adjustedMouseX;
+	int adjustedMouseY;
+	int imageWidth;
+	int imageHeight;
+	int CELLSX = 60;
+	int CELLSY = 40;
+	int[][] grid2;
+	static int numberClicks;
+
+	//strings
+	String path;
 
 
+
+	//booleans
+	static boolean shouldShowGrid;
+	static boolean drawPath = false;
+	static boolean calcPath = false;
+	static boolean addingEdge = false;
+	static boolean addingNode = false;
+	static boolean shouldRedraw = false;
+	static boolean renderEdges = false;
+	static boolean showNodeEdges = false;
+	static boolean renderEdge = false;
+	boolean doOnce= true;
+
+
+	//map components
+	static BufferedImage img;
+	static JFrame frame = new JFrame();
+	static private JPanel contentPane;
+	static boolean imageLoaded = false;
+	static JButton btnLoadMap = new JButton("Load Map");
+	private final static  JButton btnAddNode = new JButton("Add Node");
+	private final  static JButton btnAddEdge = new JButton("Add Edge");
+	private final static JButton btnSave = new JButton("Save");
+	private final static JButton btnDeleteNode = new JButton("Delete Node");
+	private final static JButton btnShowNodeEdges = new JButton("Show Edges");
+	private final static JButton btnRunButton = new JButton("Run A*");
+	private final  static JButton btnShowGrid = new JButton("Show Grid");
+	private final static JLabel lblMap = new JLabel();
+	private static final long serialVersionUID = 1L;
 
 
 
@@ -120,6 +138,7 @@ public class MappingTool extends JLabel {
 
 
 			if (img != null) {
+				System.out.println("Setting cell width and height");
 				int cellHeight = (int) (getHeight() / CELLSY); 
 				int cellWidth = (int) (getWidth() / CELLSX);
 				scaleX = cellWidth;
@@ -161,6 +180,8 @@ public class MappingTool extends JLabel {
 								grid[x][y] = new Rectangle(x,y,cellWidth,cellHeight);
 								g.setColor(Color.black);
 								g.drawRect(grid[x][y].x,grid[x][y].y , cellWidth, cellHeight);
+
+
 							}
 						}
 					}
@@ -180,13 +201,67 @@ public class MappingTool extends JLabel {
 						int y2 = bestPath.get(i+1).yPos *scaleY;
 						g.drawLine(x1+cellWidth/2,y1+cellHeight/2,x2+cellWidth/2,y2+cellHeight/2 );
 					}
-
-
-
+					drawPath = false;
+					calcPath = false;
 				}
+
+
+
+				if(renderEdge){
+						int x1 = mapNodes.get(firstNodeLoc).xPos*scaleX+cellWidth/2;
+						int y1 = mapNodes.get(firstNodeLoc).yPos*scaleY+cellHeight/2;
+						int x2 = mapNodes.get(secondNodeLoc).xPos*scaleX+cellWidth/2;
+						int y2 = mapNodes.get(secondNodeLoc).yPos*scaleY+cellHeight/2;
+						System.out.println(x1);
+						System.out.println(y1);
+						System.out.println(x2);
+						System.out.println(y2);
+
+						g.setColor(Color.ORANGE);
+						g.drawLine(x1,y1,x2,y2);
+					}
+					renderEdge = false;
+				}
+
+
+
+				if(renderEdges){
+					System.out.println("Rendering Edges");
+
+					System.out.println(firstNodeLoc);
+					System.out.println(mapNodes.get(firstNodeLoc).connectioNodes);
+					for(int i = 0; i < mapNodes.get(firstNodeLoc).connectioNodes.size();i++){
+
+						System.out.println(cellWidth);
+						System.out.println(cellHeight);
+
+
+						int x1 = (mapNodes.get(firstNodeLoc).xPos*scaleX)+(cellWidth/2);
+						int y1 = (mapNodes.get(firstNodeLoc).yPos*scaleY)+(cellHeight/2);
+						int x2 = (mapNodes.get(firstNodeLoc).connectioNodes.get(i).xPos*scaleX)+(cellWidth/2);
+						int y2 = (mapNodes.get(firstNodeLoc).connectioNodes.get(i).yPos*scaleY)+(cellHeight/2);
+			
+						System.out.println(x1);
+						System.out.println(y1);
+						System.out.println(x2);
+						System.out.println(y2);
+
+						g.setColor(Color.GREEN);
+						g.drawLine(x1,y1,x2,y2);
+
+					}
+
+					renderEdges = false;
+					showNodeEdges = false;
+				}
+
+
+
+
+
 			}
 		}
-	}
+	
 
 
 
@@ -209,15 +284,15 @@ public class MappingTool extends JLabel {
 				try {
 					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 
-					frame.add(new MappingTool());
-					frame.add(contentPane);
+					frame.getContentPane().add(new MappingTool());
+					frame.getContentPane().add(contentPane);
 					frame.setSize(800, 328);
 
 					frame.setLocationRelativeTo(null);
 					//frame.add(btnLoadMap);
 					//frame.pack();
 					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+					frame.setTitle("Randy Advanced Mapping Peripheral");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -265,10 +340,47 @@ public class MappingTool extends JLabel {
 		contentPane.addMouseListener(new MouseAdapter() { 
 			public void mousePressed(MouseEvent me) { 
 				if(imageLoaded){
+
+
+
+
+
+
+					if(showNodeEdges){
+
+						mouseX1 = (int)me.getX();
+						mouseY1 = (int) me.getY();
+						mouseX1 = setAlignedMouseX(mouseX1,imageWidth,CELLSX);
+						mouseY1 = setAlignedMouseY(mouseY1,imageHeight,CELLSY);
+
+						for(int i =0; i<mapNodes.size();i++){
+							if(mapNodes.get(i).xPos == mouseX1 && mapNodes.get(i).yPos == mouseY1){
+
+								System.out.println("Worked");
+								renderEdges = true;
+								firstNodeLoc = i;
+								repaint();
+							} else {
+								System.out.println("Didnt Work");
+								;
+
+							}
+						}
+
+
+
+
+
+					}
+
+
+
+
+
 					if(calcPath){
-					
-						
-				
+
+
+
 
 						if(numberClicks ==0){
 
@@ -306,7 +418,7 @@ public class MappingTool extends JLabel {
 
 									numberClicks = 2;
 									System.out.println("Worked");
-									
+
 								} else {
 									System.out.println("*******************");
 									System.out.println(mapNodes.get(i).xPos);
@@ -317,27 +429,27 @@ public class MappingTool extends JLabel {
 								}
 							}
 						}
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						if(numberClicks > 1){
-				
-						Settings defaultSettings = new Settings(false, false, false);
-						AStar astar = new AStar(mapNodes, defaultSettings);
 
-						bestPath = astar.findPath(mapNodes.get(firstNodeLoc), mapNodes.get(secondNodeLoc));
-						System.out.println(bestPath);
-						drawPath = true;
-						repaint();
+
+
+
+
+
+
+
+
+
+
+
+						if(numberClicks > 1){
+
+							Settings defaultSettings = new Settings(false, false, false);
+							AStar astar = new AStar(mapNodes, defaultSettings);
+
+							bestPath = astar.findPath(mapNodes.get(firstNodeLoc), mapNodes.get(secondNodeLoc));
+							System.out.println(bestPath);
+							drawPath = true;
+							repaint();
 						}
 
 					}
@@ -363,8 +475,10 @@ public class MappingTool extends JLabel {
 					}
 					else if(addingEdge){
 						boolean shouldMakeEdge = false;
+						addingNode = false;
+						showNodeEdges = false;
 						//numberClicks = 0;
-					
+
 
 
 						if(numberClicks ==0){
@@ -418,6 +532,8 @@ public class MappingTool extends JLabel {
 							tempNodes.get(0).neighbors = new Edge[]{
 									new Edge(tempNodes.get(1),Edge.getDistance(tempNodes.get(0),tempNodes.get(1))),
 							};
+
+							tempNodes.get(0).connectioNodes.add(tempNodes.get(1));
 							edgeNodes.add(tempNodes.get(0));
 							edgeNodes.add(tempNodes.get(1));
 
@@ -426,20 +542,24 @@ public class MappingTool extends JLabel {
 									new Edge(tempNodes.get(0),Edge.getDistance(tempNodes.get(1),tempNodes.get(0))),
 
 							};
+							tempNodes.get(1).connectioNodes.add(tempNodes.get(0));
+
 							System.out.println("*******");
 							System.out.println(firstNodeLoc);
 							System.out.println(secondNodeLoc);
 							System.out.println("*******");
-
+							
 							mapNodes.remove(firstNodeLoc);
 							mapNodes.add(firstNodeLoc, tempNodes.get(0));
 							mapNodes.remove(secondNodeLoc);
 							mapNodes.add(secondNodeLoc, tempNodes.get(1));
+							renderEdge = true;
+							repaint();
 							tempNodes.clear();
 							System.out.println("Edges generated");
 							numberClicks = 0;
-							firstNodeLoc = 0;
-							secondNodeLoc = 0;
+							//firstNodeLoc = 0;
+							//secondNodeLoc = 0;
 
 
 						}
@@ -458,6 +578,7 @@ public class MappingTool extends JLabel {
 		btnLoadMap.setFocusable(false);
 		btnLoadMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
+				int offset = 50;
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -483,7 +604,7 @@ public class MappingTool extends JLabel {
 						btnAddNode.setBounds(img.getWidth()+10, 45, 113+offset, 23);
 						btnAddEdge.setBounds(img.getWidth()+10, 79, 113+offset, 23);
 						btnDeleteNode.setBounds(img.getWidth()+10, 113, 113+offset, 23);
-						btnDeleteEdge.setBounds(img.getWidth()+10, 147, 113+offset, 23);
+						btnShowNodeEdges.setBounds(img.getWidth()+10, 147, 113+offset, 23);
 						btnRunButton.setBounds(img.getWidth()+10, 181, 113+offset, 23);
 						btnShowGrid.setBounds(img.getWidth()+10, 215, 113+offset, 23);
 						btnSave.setBounds(img.getWidth()+10, 249, 113+offset, 23);
@@ -512,11 +633,9 @@ public class MappingTool extends JLabel {
 		btnAddNode.setFocusable(false);
 		btnAddNode.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-
 				addingEdge = false;
 				addingNode= true;
-
-
+				calcPath = false;
 			}
 		});
 		contentPane.add(btnAddNode);
@@ -530,8 +649,7 @@ public class MappingTool extends JLabel {
 				addingEdge = true;
 				addingNode= false;
 				numberClicks = 0;
-
-
+				calcPath = false;
 			}          
 		});
 
@@ -539,12 +657,9 @@ public class MappingTool extends JLabel {
 		add.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-
 				addingEdge = false;
 				addingNode= true;
-
-
-
+				calcPath = false;
 			}          
 		});
 		contentPane.add(btnAddEdge);
@@ -560,9 +675,19 @@ public class MappingTool extends JLabel {
 		btnDeleteNode.setFocusable(false);
 		contentPane.add(btnDeleteNode);
 
-		btnDeleteEdge.setBounds(661, 147, 113, 23);
-		btnDeleteEdge.setFocusable(false);
-		contentPane.add(btnDeleteEdge);
+		btnShowNodeEdges.setBounds(661, 147, 113, 23);
+		btnShowNodeEdges.setFocusable(false);
+		contentPane.add(btnShowNodeEdges);
+		btnShowNodeEdges.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				calcPath = false;
+				addingNode = false;
+				addingEdge = false;
+				showNodeEdges = true;
+
+			}          
+		});
 
 		btnRunButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -581,16 +706,20 @@ public class MappingTool extends JLabel {
 		contentPane.add(btnRunButton);
 		btnSave.addActionListener(new ActionListener(){
 
-					public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
 
-						System.out.println(Paths.get(path).toString()+"\\mapNodes.csv");
-						saveMapNodes(Paths.get(path).toString()+"\\mapNodes.csv");
-						saveMapEdges(Paths.get(path).toString()+"\\mapEdges.csv");
-						
+				saveMapNodes(Paths.get(path).toString()+"\\mapNodes.csv");
+				saveMapEdges(Paths.get(path).toString()+"\\mapEdges.csv");
+				saveMapScale(Paths.get(path).toString()+"\\mapScale.csv");
 
-					}          
-				});
-			
+
+			}          
+		});
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(0, 0, 4, 22);
+		contentPane.add(textArea);
+
 		btnSave.setBounds(661, 249, 113, 23);
 		btnSave.setFocusable(false);
 		contentPane.add(btnSave);
@@ -605,6 +734,8 @@ public class MappingTool extends JLabel {
 		});
 		btnShowGrid.setFocusable(false);
 		contentPane.add(btnShowGrid);
+
+
 
 		try
 		{
@@ -637,8 +768,8 @@ public class MappingTool extends JLabel {
 		return actualMouseY;
 
 	}
-	
-	
+
+
 	private static void saveMapNodes(String fileName){
 
 		try
@@ -691,5 +822,25 @@ public class MappingTool extends JLabel {
 			e.printStackTrace();
 		} 
 	}
+	
+	private static void saveMapScale(String fileName){
 
+		try
+		{
+			FileWriter writer = new FileWriter(fileName);
+
+
+				writer.append(Integer.toString(scaleX));
+				writer.append(",");
+				writer.append(Integer.toString(scaleY));
+
+			
+			writer.flush();
+			writer.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		} 
+	}
 }
