@@ -1,0 +1,9 @@
+/**
+Alonso
+*/
+
+//interface for employees and department that must be implemented
+public interface CompanyUnit {
+	public String getString();
+	public double getPurchaseLimit();
+}

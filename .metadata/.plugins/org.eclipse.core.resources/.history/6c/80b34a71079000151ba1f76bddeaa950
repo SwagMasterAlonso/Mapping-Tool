@@ -1,0 +1,44 @@
+import java.util.List;
+
+/**
+Alonso
+*/
+public class Department implements CompanyUnit {
+	private String name;
+	private Department superior;
+	
+	//constructor for department
+	
+	public Department(String string, Department superior){
+		this.na= string;
+		this.superior = superior;
+	}
+	
+	@Override
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public double getPurchaseLimit() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+	public Department getSuperior(){
+		return this.superior;
+	}
+	
+	
+	public List<CompanyUnit> getSubordinates(){
+		return null;
+	}
+	
+	
+	public double yearlyBudget(){
+		return 0;
+	}
+	
+	
+}

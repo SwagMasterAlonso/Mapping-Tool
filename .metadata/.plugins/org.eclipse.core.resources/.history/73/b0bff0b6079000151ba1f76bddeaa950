@@ -1,0 +1,41 @@
+/**
+Alonso
+*/
+public class PC {
+
+	private String serialNumber; //serial number for a pc
+	private String systemName; //string that holds system name
+	private Employee employee; //employee that pc belongs to
+	
+	//constructor for pc
+	
+	public PC(String serialNumber, String systemName,Employee employee){
+		this.serialNumber = serialNumber;
+		this.systemName = systemName;
+		this.employee = employee;
+	}
+	
+	
+	public String getSerialNumber(){
+		return "";
+	}
+	
+	public String getSystemName(){
+		return "";
+	}
+	
+	public boolean needsReplacement(){
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

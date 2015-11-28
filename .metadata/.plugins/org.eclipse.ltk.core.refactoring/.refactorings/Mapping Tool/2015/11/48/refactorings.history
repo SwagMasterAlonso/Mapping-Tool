@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Node.java&apos; to &apos;MappingToolFX/src/application&apos;&#x0D;&#x0A;- Original project: &apos;Mapping Tool&apos;&#x0D;&#x0A;- Destination element: &apos;MappingToolFX/src/application&apos;&#x0D;&#x0A;- Original element: &apos;MappingTool.Node.java&apos;" description="Copy compilation unit" destination="=MappingToolFX/src&lt;application" element1="/src&lt;MappingTool{Node.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1448557302027" units="1" version="1.0"/>
+</session>

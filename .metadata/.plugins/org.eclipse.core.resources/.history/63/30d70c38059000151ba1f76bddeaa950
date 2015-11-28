@@ -1,0 +1,76 @@
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+/**
+Alonso
+*/
+public class Employee2 implements CompanyUnit{
+	private String name;
+	private long employeeID;
+	private List<PC> pcSet = new LinkedList<>();
+	
+	public Employee2(String name, long employeeID){
+		this.name = name;
+		this.employeeID = employeeID;
+	}
+	
+	
+	
+	private static Comparator<PC> pcSerialComparator = new Comparator<PC>() {
+
+		@Override
+		public int compare(PC arg0, PC arg1) {
+		
+			if (Integer.parseInt(arg0.getSerialNumber()) < Integer.parseInt(arg1.getSerialNumber())){
+				return -1;
+			}
+			else if(Integer.parseInt(arg0.getSerialNumber()) > Integer.parseInt(arg1.getSerialNumber())){
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+    };
+	
+	public Department getDepartment(){
+		return null;
+	}
+	
+	public long getEmployeeID(){
+		return this.employeeID;
+	}
+	
+	public double calcYearlyBonus(){
+		return 0;
+	}
+	
+	
+
+	
+	
+	private void addPC(String serialNumber,PC pc){
+		for(PC computer: pcSet){
+			if(computer.getSerialNumber() != serialNumber){
+				System.out.println("Serial Number already exists");
+				
+			}
+		}
+	
+	}
+
+
+	@Override
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public double getPurchaseLimit() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

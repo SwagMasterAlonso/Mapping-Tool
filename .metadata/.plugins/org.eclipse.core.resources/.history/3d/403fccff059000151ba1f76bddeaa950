@@ -1,0 +1,35 @@
+import java.util.Map;
+
+/**
+Alonso
+*/
+public class PC2{
+	private String serialNumber;
+	private String systemName;
+	private Map employeeMap;
+	
+	public PC2(String serialNumber, String systemName){
+		this.serialNumber = serialNumber;
+		this.systemName = systemName;
+		
+	}
+	
+	
+	public String getSerialNumber(){
+		return "";
+	}
+	
+	public String getSystemName(){
+		return "";
+	}
+	
+	public boolean needsReplacement(){
+		return false;
+	}
+	
+	public void addEmployee(){
+		if(!pcSet.containsKey(serialNumber)){
+			pcSet.put(serialNumber, pc);
+		}
+	}
+}

@@ -1,0 +1,67 @@
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+/**
+Alonso
+ */
+public class Employee implements CompanyUnit{
+	private String name;
+	private long employeeID;
+	private List<PC> pcSet = new ArrayList<PC>(20,new Comparator<PC>(){
+
+
+
+			public int compare(PC pc1, PC pc2){
+				if(Integer.parseInt(pc1.getSerialNumber()) < Integer.parseInt(pc2.getSerialNumber())){
+					return -1;
+				} else {
+					return 0;
+				}
+		}
+
+
+
+			);
+
+	public Employee(String name, long employeeID,List<PC> pcSet){
+		this.name = name;
+		this.employeeID = employeeID;
+		this.pcSet = pcSet;
+	}
+
+
+	public Department getDepartment(){
+		return null;
+	}
+
+	public long getEmployeeID(){
+		return this.employeeID;
+	}
+
+	public double calcYearlyBonus(){
+		return 0;
+	}
+
+
+
+	@Override
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getPurchaseLimit() {
+		// TODO Auto-genserated method stub
+		return 0;
+	}
+
+	private void addPC(PC pc){
+		pcSet.add(pc);
+		Collections.reverse(list);
+	}
+
+}

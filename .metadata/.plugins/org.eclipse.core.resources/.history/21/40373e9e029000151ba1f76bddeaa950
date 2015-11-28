@@ -1,0 +1,66 @@
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Set;
+
+import AStar.Node;
+
+/**
+Alonso
+ */
+public class Employee implements CompanyUnit{
+	private String name;
+	private long employeeID;
+	private List<PC> pcSet = new LinkedList<>();
+		
+
+	public static Comparator<PC> NAME = new Comparator<PC>() {
+        @Override
+        public int compare(Student o1, Student o2) {
+            return o1.name.compareTo(o2.name);
+        }
+    };
+
+	public Employee(String name, long employeeID,List<PC> pcSet){
+		this.name = name;
+		this.employeeID = employeeID;
+		this.pcSet = pcSet;
+	}
+
+
+	public Department getDepartment(){
+		return null;
+	}
+
+	public long getEmployeeID(){
+		return this.employeeID;
+	}
+
+	public double calcYearlyBonus(){
+		return 0;
+	}
+
+
+
+	@Override
+	public String getString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getPurchaseLimit() {
+		// TODO Auto-genserated method stub
+		return 0;
+	}
+
+	private void addPC(PC pc){
+		pcSet.add(pc);
+		Collections.reverse(list);
+	}
+
+		}
